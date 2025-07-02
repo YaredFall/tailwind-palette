@@ -1,26 +1,14 @@
 // @ts-check
 
 import eslint from "@eslint/js";
-import prettier from "eslint-plugin-prettier";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
+    {
+        ignores: ["dist", "node_modules", ".husky", ".vscode"],
+    },
     eslint.configs.recommended,
     tseslint.configs.recommended,
     eslintPluginPrettierRecommended,
-    {
-        ignores: ["**/.history", "**/.husky", "**/.vscode", "**/coverage", "**/dist", "**/node_modules"],
-        plugins: {
-            prettier,
-        },
-        languageOptions: {
-            parser: tseslint.parser,
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true,
-                },
-            },
-        },
-    },
 );
