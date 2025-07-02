@@ -1,0 +1,18 @@
+{
+    "name": "tailwind-palette",
+    "version": "0.0.0",
+    "private": "false",
+    "description": "",
+    "keywords": [],
+    "license": "ISC",
+    "author": "yaredfall",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "packageManager": "pnpm@10.9.0",
+    "publishConfig": {
+        "access": "public"
+    }
+}
