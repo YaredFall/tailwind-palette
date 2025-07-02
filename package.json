@@ -20,8 +20,8 @@
     "scripts": {
         "build": "tsup"
     },
-    "dependencies": {
-        "tailwindcss": "^3.4.17"
+    "peerDependencies": {
+        "tailwindcss": "^3"
     },
     "devDependencies": {
         "@eslint/js": "^9.30.1",
