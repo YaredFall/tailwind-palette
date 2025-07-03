@@ -53,9 +53,26 @@ function withNested(key: string) {
     return `${PALETTE_VARIABLE}${keyValue}`;
 }
 
-function paletteValueWithOpacity(key: string, modifier?: string) {
-    return `rgb(var(${withNested(key)}) / ${modifier ?? 1})`;
+function paletteValueWithOpacity(key: string, modifier?: string | null) {
+    return `rgb(var(${withNested(key)})_/_${modifier ?? 1})`;
 }
+
+const utilitiesToGenerate = [
+    "text",
+    "decoration",
+    "bg",
+    "border",
+    "ring",
+    "ring-offset",
+    "outline",
+    "caret",
+    "shadow",
+    "accent",
+    "divide",
+    "from",
+    "via",
+    "to",
+];
 
 const palette = plugin(async ({ matchUtilities, theme }) => {
     const colors = theme("colors") ?? {};
@@ -64,35 +81,6 @@ const palette = plugin(async ({ matchUtilities, theme }) => {
     const flatColors = flattenColorPalette.default(colors);
 
     const { palettes, nestedKeys } = getPluginValues(colorKeys, flatColors);
-
-    matchUtilities(
-        {
-            "text-palette": (val, { modifier }) => {
-                return {
-                    color: paletteValueWithOpacity(val, modifier),
-                };
-            },
-            "bg-palette": (val, { modifier }) => {
-                return {
-                    backgroundColor: paletteValueWithOpacity(val, modifier),
-                };
-            },
-            "border-palette": (val, { modifier }) => {
-                return {
-                    borderColor: paletteValueWithOpacity(val, modifier),
-                };
-            },
-            "outline-palette": (val, { modifier }) => {
-                return {
-                    outlineColor: paletteValueWithOpacity(val, modifier),
-                };
-            },
-        },
-        {
-            values: Object.fromEntries(nestedKeys),
-            modifiers: theme("opacity"),
-        },
-    );
 
     matchUtilities(
         {
@@ -110,6 +98,21 @@ const palette = plugin(async ({ matchUtilities, theme }) => {
             type: ["color", "any"],
         },
     );
+
+    const utilitiesValues = Object.fromEntries(nestedKeys);
+    utilitiesToGenerate.forEach((utility) => {
+        matchUtilities(
+            {
+                [`${utility}-palette`]: (val, { modifier }) => ({
+                    [`@apply ${utility}-[${paletteValueWithOpacity(val, modifier)}]`]: "",
+                }),
+            },
+            {
+                values: utilitiesValues,
+                modifiers: theme("opacity"),
+            },
+        );
+    });
 });
 
 export default palette;
