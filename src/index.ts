@@ -74,7 +74,7 @@ const utilitiesToGenerate = [
     "to",
 ];
 
-const palette = plugin(async ({ matchUtilities, theme }) => {
+const palette = plugin(({ matchUtilities, theme }) => {
     const colors = theme("colors") ?? {};
 
     const colorKeys = getThemeColorKeys(colors);
