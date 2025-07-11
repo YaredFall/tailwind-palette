@@ -19,7 +19,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "prepack": "tsup",
-        "release": "bumpp --preid rc -r && pnpm publish"
+        "release": "tsc --noEmit && bumpp --preid rc -r && pnpm publish"
     },
     "peerDependencies": {
         "tailwindcss": "^3"
