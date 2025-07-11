@@ -90,7 +90,14 @@ const palette = plugin(async ({ matchUtilities, theme }) => {
                         [withNested("")]: val,
                     };
 
-                return Object.fromEntries(val.map((e) => [withNested(e.key), parseColor(e.color)!.color.join(" ")]));
+                return val.reduce(
+                    (acc, e) => {
+                        const parsed = parseColor(e.color)?.color.join(" ");
+                        if (parsed) acc[withNested(e.key)] = parsed;
+                        return acc;
+                    },
+                    {} as Record<string, string>,
+                );
             },
         },
         {
