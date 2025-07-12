@@ -1,5 +1,5 @@
-import { parseColor } from "tailwindcss/lib/util/color";
 import plugin from "tailwindcss/plugin";
+import Color from "color";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 interface RecursiveKeyValuePair<K extends string = string, V = string> {
@@ -57,6 +57,11 @@ function paletteValueWithOpacity(key: string, modifier?: string | null) {
     return `rgb(var(${withNested(key)})_/_${modifier ?? 1})`;
 }
 
+function parseColor(color: string) {
+    const [r, g, b] = Color(color).rgb().array();
+    return { r, g, b };
+}
+
 const utilitiesToGenerate = [
     "text",
     "decoration",
@@ -92,8 +97,12 @@ const palette = plugin(({ matchUtilities, theme }) => {
 
                 return val.reduce(
                     (acc, e) => {
-                        const parsed = parseColor(e.color)?.color.join(" ");
-                        if (parsed) acc[withNested(e.key)] = parsed;
+                        try {
+                            const { r, g, b } = parseColor(e.color);
+                            acc[withNested(e.key)] = acc[withNested(e.key)] = `${r} ${g} ${b}`;
+                        } catch {
+                            // ignore error
+                        }
                         return acc;
                     },
                     {} as Record<string, string>,
