@@ -18,7 +18,7 @@
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "prepack": "tsup && pnpx fix-tsup-cjs",
+        "prepack": "tsup",
         "release": "tsc --noEmit && bumpp --preid rc -r && pnpm publish"
     },
     "peerDependencies": {
@@ -31,7 +31,6 @@
         "eslint-config-prettier": "^10.1.5",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-prettier": "^5.5.1",
-        "fix-tsup-cjs": "^1.2.0",
         "jiti": "^2.4.2",
         "prettier": "^3.6.2",
         "prettier-plugin-tailwindcss": "^0.6.13",
