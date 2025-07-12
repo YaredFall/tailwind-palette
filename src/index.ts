@@ -83,7 +83,7 @@ const palette = plugin(({ matchUtilities, theme }) => {
     const colors = theme("colors") ?? {};
 
     const colorKeys = getThemeColorKeys(colors);
-    const flatColors = flattenColorPalette.default(colors);
+    const flatColors = flattenColorPalette(colors);
 
     const { palettes, nestedKeys } = getPluginValues(colorKeys, flatColors);
 
